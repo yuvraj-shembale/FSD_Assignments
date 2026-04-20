@@ -1,7 +1,11 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const mongoose = require('./local-db');
 const cors = require('cors');
 require('dotenv').config();
+
+// Switched to Local JSON Database for stability
+// const dns = require('dns');
+// dns.setServers(['8.8.8.8', '1.1.1.1']);
 
 const Feedback = require('./models/Feedback');
 
@@ -12,10 +16,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/studentFeedbackDB')
-.then(() => console.log('Successfully connected to MongoDB.'))
-.catch(err => console.error('MongoDB connection error:', err));
+// Local Database Initialization
+mongoose.connect()
+.then(() => console.log('✅ Connected to Local JSON Database.'))
+.catch(err => console.error('Local DB Error:', err));
 
 // Routes
 // 1. Get all feedback

@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "studentName": "Local Test",
+    "course": "Browser Automation",
+    "rating": 5,
+    "comments": "Verified that local mode is working correctly.",
+    "_id": "1776719181095",
+    "createdAt": "2026-04-20T21:06:21.095Z"
+  }
+]

@@ -11,22 +11,28 @@ function App() {
     rating: 5,
     comments: ''
   });
+  const [error, setError] = useState(null);
   
   const fetchFeedbacks = async () => {
     try {
+      setError(null);
       const res = await fetch('http://localhost:5000/api/feedback');
       const data = await res.json();
-      setFeedbacks(data);
+      if (Array.isArray(data)) {
+        setFeedbacks(data);
+      } else {
+        setFeedbacks([]);
+        setError("Unable to load feedbacks. Please check database connection.");
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
+      setError("Server unreachable. Make sure backend is running.");
+      setFeedbacks([]);
     }
   };
 
   useEffect(() => {
     fetchFeedbacks();
-    // Auto-refresh every 30 seconds
-    const interval = setInterval(fetchFeedbacks, 30000);
-    return () => clearInterval(interval);
   }, []);
 
   const handleChange = (e) => {
@@ -39,6 +45,8 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
     try {
       const res = await fetch('http://localhost:5000/api/feedback', {
@@ -49,18 +57,23 @@ function App() {
       if (res.ok) {
         setFormData({ studentName: '', course: '', rating: 5, comments: '' });
         await fetchFeedbacks();
+      } else {
+        throw new Error('Server error');
       }
     } catch (error) {
-      alert("Failed to submit. Is the backend running?");
+      alert("Submission failed. Please check if the backend is running.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const filteredFeedbacks = feedbacks.filter(item => 
-    item.studentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.course.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // ADDED SAFETY CHECKS HERE
+  const filteredFeedbacks = Array.isArray(feedbacks) ? feedbacks.filter(item => {
+    const name = item.studentName ? String(item.studentName).toLowerCase() : '';
+    const course = item.course ? String(item.course).toLowerCase() : '';
+    const search = searchTerm.toLowerCase();
+    return name.includes(search) || course.includes(search);
+  }) : [];
 
   return (
     <div className="container">
@@ -73,7 +86,11 @@ function App() {
         {/* Left: Submission Form */}
         <section className="glass-card">
           <h2><span style={{fontSize: '1.2rem'}}>✍️</span> Submit Review</h2>
-          <form onSubmit={handleSubmit} className="feedback-form">
+          <form 
+            onSubmit={(e) => { e.preventDefault(); handleSubmit(e); }} 
+            className="feedback-form" 
+            autoComplete="off"
+          >
             <div className="form-group">
               <label>Student Name</label>
               <input 
@@ -117,7 +134,11 @@ function App() {
                 required 
               />
             </div>
-            <button type="submit" className="submit-btn" disabled={isSubmitting}>
+            <button 
+              type="submit" 
+              className="submit-btn" 
+              disabled={isSubmitting}
+            >
               {isSubmitting ? 'Submitting...' : 'Post Feedback'}
             </button>
           </form>
@@ -136,27 +157,33 @@ function App() {
             />
           </div>
 
-          {filteredFeedbacks.length === 0 ? (
+          {error && (
+            <div className="glass-card" style={{borderColor: '#ef4444', animation: 'pulse 2s infinite'}}>
+              <p style={{color: '#ef4444', textAlign: 'center'}}>⚠️ {error}</p>
+            </div>
+          )}
+
+          {filteredFeedbacks.length === 0 && !error ? (
             <div className="glass-card" style={{textAlign: 'center', color: 'var(--text-muted)'}}>
               <p>No matching reviews found.</p>
             </div>
           ) : (
             <div className="feedback-grid">
-              {filteredFeedbacks.map((item) => (
-                <div key={item._id} className="feedback-card">
+              {filteredFeedbacks.map((item, index) => (
+                <div key={item._id || `fb-${index}`} className="feedback-card">
                   <div className="card-header">
                     <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
                       <div className="student-initial">
-                        {item.studentName.charAt(0).toUpperCase()}
+                        {item.studentName ? String(item.studentName).charAt(0).toUpperCase() : '?'}
                       </div>
-                      <span style={{fontWeight: '600'}}>{item.studentName}</span>
+                      <span style={{fontWeight: '600'}}>{item.studentName || 'Anonymous'}</span>
                     </div>
                     <div className="rating-stars">
-                      {'★'.repeat(item.rating)}{'☆'.repeat(5 - item.rating)}
+                      {'★'.repeat(Number(item.rating) || 0)}{'☆'.repeat(5 - (Number(item.rating) || 0))}
                     </div>
                   </div>
-                  <span className="course-badge">{item.course}</span>
-                  <p className="comment-text">"{item.comments}"</p>
+                  <span className="course-badge">{item.course || 'N/A'}</span>
+                  <p className="comment-text">"{item.comments || 'No comment'}"</p>
                 </div>
               ))}
             </div>
