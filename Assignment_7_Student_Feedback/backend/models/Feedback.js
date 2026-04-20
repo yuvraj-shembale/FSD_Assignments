@@ -1,4 +1,4 @@
-const mongoose = require('../local-db');
+const mongoose = require('mongoose');
 
 const feedbackSchema = new mongoose.Schema({
     studentName: {
