@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthSync | Appointment Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --secondary: #6366f1;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background: #0284c7;
+        }
+
+        .appointment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .appointment-card {
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+
+        .appointment-card:hover {
+            transform: scale(1.01);
+        }
+
+        .appt-info span {
+            display: block;
+        }
+
+        .patient-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .appt-meta {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending { background: #fef9c3; color: #854d0e; }
+        .status-confirmed { background: #dcfce7; color: #166534; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: white;
+            font-size: 0.8rem;
+        }
+
+        .btn-confirm { color: var(--success); }
+        .btn-cancel { color: var(--danger); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">✙ HealthSync</div>
+            <div id="connection-status" style="font-size: 0.875rem; color: var(--success);">● System Online</div>
+        </header>
+
+        <div class="main-grid">
+            <div class="card">
+                <h2 class="section-title">New Appointment</h2>
+                <form id="booking-form">
+                    <div class="form-group">
+                        <label>Patient Name</label>
+                        <input type="text" id="patientName" required placeholder="Jane Smith">
+                    </div>
+                    <div class="form-group">
+                        <label>Select Doctor</label>
+                        <select id="doctorName">
+                            <option value="Dr. Arnab Das">Dr. Arnab Das (Cardiology)</option>
+                            <option value="Dr. Sarah Jenkins">Dr. Sarah Jenkins (Neurology)</option>
+                            <option value="Dr. Michael Chen">Dr. Michael Chen (Pediatrics)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date & Time</label>
+                        <input type="datetime-local" id="appointmentDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Reason for Visit</label>
+                        <textarea id="reason" rows="3" required placeholder="General checkup..."></textarea>
+                    </div>
+                    <button type="submit">Confirm Booking</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2 class="section-title">Active Appointments</h2>
+                <div id="appointments-container" class="appointment-list">
+                    <!-- Dynamic content -->
+                </div>
+                <div id="loading" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                    Fetching appointments...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '/api/appointments';
+
+        async function fetchAppointments() {
+            try {
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                renderAppointments(data);
+            } catch (err) {
+                console.error("Error fetching data:", err);
+            }
+        }
+
+        function renderAppointments(appts) {
+            const container = document.getElementById('appointments-container');
+            const loading = document.getElementById('loading');
+            
+            container.innerHTML = '';
+            loading.style.display = appts.length ? 'none' : 'block';
+            if(!appts.length) loading.innerText = 'No appointments found.';
+
+            appts.forEach(appt => {
+                const date = new Date(appt.appointmentDate).toLocaleString();
+                const div = document.createElement('div');
+                div.className = 'appointment-card';
+                div.innerHTML = `
+                    <div class="appt-info">
+                        <span class="patient-name">${appt.patientName}</span>
+                        <span class="appt-meta">👨‍⚕️ ${appt.doctorName}</span>
+                        <span class="appt-meta">📅 ${date}</span>
+                        <span class="appt-meta">📝 ${appt.reason}</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="status-badge status-${appt.status.toLowerCase()}">${appt.status}</span>
+                        <div class="actions" style="margin-top: 10px;">
+                            ${appt.status === 'Pending' ? `
+                                <button onclick="updateStatus('${appt._id}', 'Confirmed')" class="btn-icon btn-confirm">Confirm</button>
+                                <button onclick="updateStatus('${appt._id}', 'Cancelled')" class="btn-icon btn-cancel">Cancel</button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        async function updateStatus(id, status) {
+            try {
+                await fetch(`${API_URL}/${id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+                fetchAppointments();
+            } catch (err) {
+                alert("Error updating status");
+            }
+        }
+
+        document.getElementById('booking-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                patientName: document.getElementById('patientName').value,
+                doctorName: document.getElementById('doctorName').value,
+                appointmentDate: document.getElementById('appointmentDate').value,
+                reason: document.getElementById('reason').value
+            };
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if(res.ok) {
+                    document.getElementById('booking-form').reset();
+                    fetchAppointments();
+                }
+            } catch (err) {
+                alert("Error booking appointment");
+            }
+        });
+
+        // Initial Load
+        fetchAppointments();
+    </script>
+</body>
+</html>
