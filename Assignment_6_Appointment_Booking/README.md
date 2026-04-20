@@ -1,25 +1,23 @@
-# Assignment 6: Appointment Booking Backend
+# Assignment 6: Appointment Booking (Local Edition)
 
-This is the backend for an Online Appointment Booking Application built using Node.js, Express, and MongoDB.
+This is a local-only online appointment booking application built using Node.js and Express. It features a zero-setup database which saves data directly to your computer.
 
-## Details
-This application gives users the ability to manage appointments (for example, booking a doctor's appointment). It provides full RESTful routing.
+## ✨ New Features
+- **Zero-Setup Database**: No database server needed. Data is stored locally in `appointment.json`.
+- **Medical Booking UI**: A clean, professional web interface to book and manage appointments.
+- **Instant Connection**: No more "Connection Refused" errors!
 
-### Data Model (`Appointment`)
-- `patientName`: String
-- `doctorName`: String
-- `appointmentDate`: Date
-- `reason`: String
-- `status`: 'Pending', 'Confirmed', 'Completed', or 'Cancelled'
+## 🚀 How to Run
+1.  Open a terminal in this folder (`Assignment_6_Appointment_Booking`).
+2.  Run `npm start`. (Ensures all services start automatically).
+3.  Open your browser and navigate to: **[http://localhost:4000](http://localhost:4000)**
 
-### API Endpoints
-- `GET /api/appointments`: Fetch all upcoming appointments sorted by date.
-- `POST /api/appointments`: Create a new appointment. Requires a JSON body.
-- `PATCH /api/appointments/:id`: Update an appointment's status (e.g. marking it as Confirmed).
+## 📋 API Details
+- `GET /api/appointments`: Fetch all appointments from the local JSON file.
+- `POST /api/appointments`: Create a new appointment record.
+- `PATCH /api/appointments/:id`: Update appointment status (e.g., Confirm or Cancel).
 
-## How to execute
-1. CD into this directory.
-2. Ensure you have run `npm install` to download Express and Mongoose.
-3. Start your local MongoDB server.
-4. Run `node server.js`
-5. The API will be accessible on port `4000`. You can use tools like Postman to POST new appointments.
+## 📂 File Structure
+- `local-db.js`: Handles data persistence using local files.
+- `public/index.html`: The professional booking interface.
+- `appointment.json`: Your local database file.

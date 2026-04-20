@@ -1,21 +1,28 @@
-# Assignment 7: Student Feedback Review System
+# Assignment 7: Student Feedback (Zero-Setup Edition)
 
-This assignment encompasses building a full-stack MERN application (MongoDB, Express, React, Node.js). It's a Student Feedback Review System where students can submit reviews for courses and see them live.
+This is a full-stack MERN-style application that has been optimized to run 100% locally with zero database setup required.
 
-## Folder Structure
-- `/backend`: The Express.js server and Mongoose models.
-- `/frontend`: The React.js frontend bootstrapped with Vite.
+## 🚀 How to Run (Same Device, No Setup)
 
-## Backend Setup
-1. CD into `backend`
-2. Run `npm install`
-3. Run `npm start` (or `node server.js`) to start the server on port 5000. Ensure MongoDB is running locally.
+### 1️⃣ Step 1: Start the Backend
+1.  Open a terminal in the `/backend` folder.
+2.  Run: `npm start`
+3.  The server will start on port `5000` and use a local `feedback.json` file for storage.
 
-## Frontend Setup
-1. CD into `frontend`
-2. Run `npm install`
-3. Run `npm run dev` to start the frontend.
-4. Navigate to the localhost URL provided by Vite (usually `http://localhost:5173`).
+### 2️⃣ Step 2: Start the Frontend
+1.  Open a **second** terminal in the `/frontend` folder.
+2.  Run: `npm install` (first time only).
+3.  Run: `npm run dev`.
+4.  Open the URL shown in the terminal (usually `http://localhost:5173`).
 
-## Usage
-The React app connects to `http://localhost:5000/api/feedback` to post and fetch reviews. It uses functional components and hooks (`useState`, `useEffect`) to manage the state of the form and the list of feedbacks.
+---
+
+## 🛠️ Optimization Features
+- **Local JSON DB**: Replaced external MongoDB with a local file-based database for zero-setup execution.
+- **Root Launcher**: Added an `index.html` at the root with clear instructions.
+- **Auto-Sync**: Data persists in `feedback.json` within the backend folder.
+
+## 📂 Folder Structure
+- `/backend`: The Node/Express server (optimized with `local-db.js`).
+- `/frontend`: The React/Vite application.
+- `index.html`: Instruction launchpad for the assignment.

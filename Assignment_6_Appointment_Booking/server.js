@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const mongoose = require('./local-db');
 const cors = require('cors');
 require('dotenv').config();
 

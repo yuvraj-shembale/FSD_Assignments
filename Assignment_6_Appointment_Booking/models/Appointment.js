@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../local-db');
 
 const appointmentSchema = new mongoose.Schema({
     patientName: {

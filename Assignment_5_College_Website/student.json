@@ -1,0 +1,26 @@
+[
+  {
+    "name": "YUVRAJ SHEMBALE",
+    "rollNumber": "1231D045",
+    "department": "Computer Engineering",
+    "year": 1,
+    "_id": "1776712892702",
+    "createdAt": "2026-04-20T19:21:32.702Z"
+  },
+  {
+    "name": "nihar salvi",
+    "rollNumber": "123B1D001",
+    "department": "Computer Engineering",
+    "year": 2,
+    "_id": "1776712906876",
+    "createdAt": "2026-04-20T19:21:46.876Z"
+  },
+  {
+    "name": "niasrg",
+    "rollNumber": "as cas",
+    "department": "Computer Engineering",
+    "year": 4,
+    "_id": "1776713168072",
+    "createdAt": "2026-04-20T19:26:08.072Z"
+  }
+]
