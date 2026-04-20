@@ -1,0 +1,72 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* Custom Hero Section with dark overlay */
+.hero {
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80') center/cover no-repeat;
+}
+
+/* Typography */
+.section-title {
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 3px;
+    background-color: #0d6efd;
+    bottom: -10px;
+    left: 0;
+}
+
+.text-center .section-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Card Hover Effects */
+.skill-card {
+    transition: transform 0.3s ease;
+}
+
+.skill-card:hover {
+    transform: translateY(-10px);
+}
+
+.project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+/* Button Styling */
+.custom-btn {
+    border-radius: 30px;
+    padding: 10px 30px;
+}
+
+.profile-img {
+    max-width: 300px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Social links hover effect */
+.social-links a {
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #0d6efd !important;
+}
