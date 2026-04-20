@@ -1,16 +1,23 @@
-# Assignment 4: Weather Dashboard Visualization
+# Assignment 4: Live Weather Dashboard (Premium Edition)
 
-For this assignment, the objective was to create an interactive data visualization dashboard. I decided to stick with a generic Weather Dashboard using the powerful `Chart.js` library as suggested.
+This is a professional-grade weather tracking application that uses real-time data to provide accurate updates for any city in the world.
 
-## Features Let's look at what's included:
+## ✨ High-End Features
+- **Live Search**: Integrated with the OpenWeatherMap API to fetch real-time data for global cities.
+- **Dynamic Glassmorphism UI**: A state-of-the-art interface that changes its theme (colors and backgrounds) based on current weather conditions (Sunny, Rainy, Cloudy, etc.).
+- **Live 24H Forecast Chart**: Uses Chart.js to visualize temperature trends for the next 24 hours.
+- **5-Day Forecast Grid**: Displays upcoming weather conditions with localized icons.
 
-1.  **Summary Cards:** Some standard metrics at the top like Current Temperature, Humidity, and Wind speed.
-2.  **Interactive Line Chart:** Displays a 7-Day Temperature curve. You can hover over the points to see the exact value.
-3.  **Doughnut Chart:** Displays the proportion of weather conditions across the week (Sunny, Cloudy, Rainy).
-4.  **Bar Chart:** Compares the average rainfall data across major global cities.
+## 🚀 How to Run
+1.  Open `index.html` in your favorite web browser.
+2.  Use the search bar in the top-right corner to enter a city name (e.g., "Mumbai" or "New York").
+3.  Hit **Enter** or click the search icon to see the dashboard magically update!
 
-## How It's Built
--   **Frontend:** Standard HTML structure with the Bootstrap 5 CDN used for a responsive grid system and aesthetic `card` styles.
--   **JS Logic:** `script.js` handles initializing drawing contexts and rendering the charts onto HTML Canvas elements. 
+## 📂 File Structure
+- `index.html`: The modern, responsive layout.
+- `style.css`: Premium dynamic styling using CSS variables and glassmorphism.
+- `script.js`: The brain of the app, handling API calls, UI updates, and charts.
 
-To view it, just open up `index.html` in your web browser. No need to install `npm` packages for this— Chart.js is loaded dynamically via a CDN link.
+---
+> [!TIP]
+> This app uses a real API key. Ensure you have an active internet connection to see live weather data and icons.
