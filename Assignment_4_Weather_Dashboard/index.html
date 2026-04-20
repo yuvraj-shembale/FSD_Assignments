@@ -3,103 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Dashboard</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>SkyCast | Premium Weather Dashboard</title>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-light">
+<body class="clear">
+    <div class="container">
+        <header>
+            <div class="brand">
+                <h2 style="font-weight: 700;">SkyCast</h2>
+                <p id="current-time" style="font-size: 0.8rem; color: var(--text-muted);"></p>
+            </div>
+            <div class="search-box">
+                <input type="text" id="city-input" placeholder="Search City (e.g. Mumbai)...">
+                <button class="search-btn" id="search-btn">🔍</button>
+            </div>
+        </header>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-dark bg-primary shadow-sm">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">Global Weather Dashboard</span>
-        </div>
-    </nav>
+        <main class="dashboard-grid">
+            <!-- Left Side: Main Weather -->
+            <section class="card main-weather" id="main-card">
+                <div class="city-name" id="display-city">Loading...</div>
+                <div class="date" id="display-date">----------</div>
+                
+                <img src="" alt="Weather" class="weather-icon" id="weather-icon">
+                
+                <div class="temp-large">
+                    <span id="temp-val">--</span>
+                    <span class="unit">°C</span>
+                </div>
+                
+                <div class="condition" id="condition-text">---------</div>
 
-    <div class="container mt-4 mb-5">
-        
-        <!-- Summary Cards -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card text-white bg-info mb-3 border-0 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Current Temp</h5>
-                        <p class="card-text display-4">24°C</p>
-                        <small>New York City</small>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value" id="humidity-val">--%</span>
+                        <span class="stat-label">Humidity</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="wind-val">-- km/h</span>
+                        <span class="stat-label">Wind</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="pressure-val">----</span>
+                        <span class="stat-label">Pressure</span>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-warning mb-3 border-0 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Humidity</h5>
-                        <p class="card-text display-4">65%</p>
-                        <small>Moderate</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-secondary mb-3 border-0 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Wind Speed</h5>
-                        <p class="card-text display-4">12 km/h</p>
-                        <small>North-East</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-success mb-3 border-0 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Air Quality</h5>
-                        <p class="card-text display-4">34</p>
-                        <small>AQI (Good)</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- Charts Row -->
-        <div class="row">
-            <!-- Line Chart: Weekly Temperature -->
-            <div class="col-lg-8 mb-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body">
-                        <h5 class="card-title text-muted mb-4">7-Day Temperature Forecast</h5>
-                        <canvas id="tempChart"></canvas>
+            <!-- Right Side: Trends & Forecast -->
+            <section class="charts-container">
+                <div class="card chart-card">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 600;">24H Temperature Trend</h3>
+                    <div style="height: 250px;">
+                        <canvas id="forecastChart"></canvas>
                     </div>
                 </div>
-            </div>
 
-            <!-- Doughnut Chart: Weather Conditions -->
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body">
-                        <h5 class="card-title text-muted mb-4">Weekly Condition Share</h5>
-                        <canvas id="conditionChart"></canvas>
+                <div class="card">
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 600;">5-Day Forecast</h3>
+                    <div class="forecast-row" id="forecast-container">
+                        <!-- Forecast items injected by JS -->
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Second Charts Row -->
-        <div class="row">
-            <!-- Bar Chart: Precipitation across cities -->
-            <div class="col-12 mb-4">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body">
-                        <h5 class="card-title text-muted mb-4">Average Monthly Rainfall (Top Cities)</h5>
-                        <canvas id="rainChart" height="100"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </section>
+        </main>
     </div>
 
-    <!-- Custom Script -->
     <script src="script.js"></script>
 </body>
 </html>
